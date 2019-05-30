@@ -23,6 +23,16 @@ def main():
 
     print(r1, r2, r3)
 
+    b11 = calculateB1(x2, y1)
+    b12 = calculateB1(x2, y2)
+    b13 = calculateB1(x3, y3)
+
+    # round(b11, 4)
+    # round(b12, 4)
+    # round(b13, 4)
+
+    print(b11, b12, b13)
+
 
 def generateRegression(x, y):
     xAvg = average(x)
@@ -41,6 +51,19 @@ def generateRegression(x, y):
     dividendo = math.sqrt(dividendo)
 
     return divisor / dividendo
+
+def calculateB1(x, y):
+    xAvg = average(x)
+    yAvg = average(y)
+    divisor = 0
+    dividendo = 0
+
+    for i in range(0, len(x)):
+        divisor += (x[i] - xAvg) * (y[i] - yAvg)
+        dividendo += (x[i] - xAvg) ** 2
+    
+    return divisor / dividendo
+
 
 def average(lst):
     return sum(lst) / len(lst)
