@@ -13,38 +13,42 @@ y3 = [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 5.56, 7.91, 6.89, 12.50]
 
 
 def main():
-    r1 = generateRegression(x1, y1)
-    r2 = generateRegression(x2, y2)
-    r3 = generateRegression(x3, y3)
+    r1 = correlacao(x1, y1)
+    r2 = correlacao(x2, y2)
+    r3 = correlacao(x3, y3)
 
     # round(r1, 4)
     # round(r2, 4)
     # round(r3, 4)
 
-    print(r1, r2, r3)
+    # print(r1, r2, r3)
 
-    b11 = calculateB1(x2, y1)
-    b12 = calculateB1(x2, y2)
-    b13 = calculateB1(x3, y3)
+    b11 = regressaoB1(x1, y1)
+    b12 = regressaoB1(x2, y2)
+    b13 = regressaoB1(x3, y3)
 
     # round(b11, 4)
     # round(b12, 4)
     # round(b13, 4)
 
-    print(b11, b12, b13)
+    # print(b11, b12, b13)
 
-    b01 = calculateB0(x2, y1, b11)
-    b02 = calculateB0(x2, y2, b12)
-    b03 = calculateB0(x3, y3, b13)
+    b01 = regressaoB0(x1, y1, b11)
+    b02 = regressaoB0(x2, y2, b12)
+    b03 = regressaoB0(x3, y3, b13)
 
     # round(b01, 4)
     # round(b02, 4)
     # round(b03, 4)
 
-    print(b01, b02, b03)
+    # print(b01, b02, b03)
+
+    montarGrafico(x1, y1, b01, b11, r1)
+    # montarGrafico(x2, y2, b02, b12, r2)
+    # montarGrafico(x3, y3, b03, b13, r3)
 
 
-def generateRegression(x, y):
+def correlacao(x, y):
     xAvg = average(x)
     yAvg = average(y)
     divisor = 0
@@ -63,7 +67,7 @@ def generateRegression(x, y):
     return divisor / dividendo
 
 
-def calculateB1(x, y):
+def regressaoB1(x, y):
     xAvg = average(x)
     yAvg = average(y)
     divisor = 0
@@ -76,7 +80,7 @@ def calculateB1(x, y):
     return divisor / dividendo
 
 
-def calculateB0(x, y, b1):
+def regressaoB0(x, y, b1):
     xAvg = average(x)
     yAvg = average(y)
     return yAvg - (b1 * xAvg)
@@ -84,6 +88,20 @@ def calculateB0(x, y, b1):
 
 def average(lst):
     return sum(lst) / len(lst)
+
+
+def calcularCoeficienteCorrelacao(b0, b1, x):
+    y = []
+    for i in range(0, len(x)):
+        y.append(b0 + (b1*x[i]))
+    return y
+
+
+def montarGrafico(x, y, b0, b1, r):
+    plt.scatter(x, y)
+    plt.plot(x, calcularCoeficienteCorrelacao(b0, b1, x), 'r')
+    plt.title('r=' + str(round(r, 4)) + ' b0=' + str(round(b0, 4)) + ' b1=' + str(round(b1, 4)))
+    plt.show()
 
 
 if __name__ == "__main__":
