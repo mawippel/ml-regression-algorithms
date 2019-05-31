@@ -44,8 +44,8 @@ def main():
     # print(b01, b02, b03)
 
     montarGrafico(x1, y1, b01, b11, r1)
-    # montarGrafico(x2, y2, b02, b12, r2)
-    # montarGrafico(x3, y3, b03, b13, r3)
+    montarGrafico(x2, y2, b02, b12, r2)
+    montarGrafico(x3, y3, b03, b13, r3)
 
 
 def correlacao(x, y):
