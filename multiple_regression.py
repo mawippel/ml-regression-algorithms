@@ -32,7 +32,7 @@ def matrix_indY(m):
 def multiply_matrix(m1, m2):
     result = [[0 for x in range(len(m1))] for y in range(len(m2))]
     for i in range(len(m1)):
-        # iterating by coloum by m2
+        # iterating by column by m2
         for j in range(len(m2[0])):
             # iterating by rows of m2
             for k in range(len(m2)):
@@ -40,6 +40,19 @@ def multiply_matrix(m1, m2):
 
     for r in result:
         print(r)
+    # vai gerar uma matriz com o msm numero de linhas e colunas
+
+    # elevar cada posicao por -1
+
+    # multiplicar pela matriz transposta
+
+    # multiplicar por y
+    
+    
+
+# Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
+
+# Plot  de Tamanho | numero de quartos | preco calculado
 
 
 if __name__ == "__main__":
