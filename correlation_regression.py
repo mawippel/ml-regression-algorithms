@@ -1,3 +1,8 @@
+"""
+    Qual dos datasets não é apropriado para regressão linear?
+    R: O ultimo grafico, ja que, o eixo y varia sem existir uma variacao no eixo y.
+"""
+
 import copy
 import math
 import matplotlib.pyplot as plt
