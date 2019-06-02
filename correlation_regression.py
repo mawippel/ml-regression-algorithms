@@ -26,8 +26,6 @@ def main():
     # round(r2, 4)
     # round(r3, 4)
 
-    # print(r1, r2, r3)
-
     b11 = regressaoB1(x1, y1)
     b12 = regressaoB1(x2, y2)
     b13 = regressaoB1(x3, y3)
@@ -36,8 +34,6 @@ def main():
     # round(b12, 4)
     # round(b13, 4)
 
-    # print(b11, b12, b13)
-
     b01 = regressaoB0(x1, y1, b11)
     b02 = regressaoB0(x2, y2, b12)
     b03 = regressaoB0(x3, y3, b13)
@@ -45,8 +41,6 @@ def main():
     # round(b01, 4)
     # round(b02, 4)
     # round(b03, 4)
-
-    # print(b01, b02, b03)
 
     montarGrafico(x1, y1, b01, b11, r1)
     montarGrafico(x2, y2, b02, b12, r2)
