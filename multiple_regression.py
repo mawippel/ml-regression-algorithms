@@ -1,5 +1,6 @@
 import math
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import data
 import numpy as np
 import correlation_regression
@@ -26,7 +27,7 @@ def main():
     correlation_regression.montarGrafico(numQuartos, my, b0, b1, r1)
 
     mtx = transpose_matrix(mx)
-    multiply_matrix(mtx, mx, my)
+    multiply_matrix(mtx, mx, my, tamanhoCasas, numQuartos)
 
 
 def transpose_matrix(m):
@@ -61,7 +62,7 @@ def getNumQuartos(m):
     return quartos
 
 
-def multiply_matrix(mt1, m2, m3y):
+def multiply_matrix(mt1, m2, m3y, tamanhoCasas, numQuartos):
     multipliedMatrix = np.matrix(mt1) * np.matrix(m2)
     mMultipliedMatrix = multipliedMatrix.tolist()
 
@@ -74,21 +75,34 @@ def multiply_matrix(mt1, m2, m3y):
     multipliedMatrix = np.matrix(mMultipliedMatrix) * np.matrix(mt1)
 
     # Multiplicar a matriz por y (preço)
-    result = []
-
     b1 = (np.array(multipliedMatrix[0]) * np.array(m3y)).tolist()
     b2 = (np.array(multipliedMatrix[1]) * np.array(m3y)).tolist()
     b3 = (np.array(multipliedMatrix[2]) * np.array(m3y)).tolist()
 
-    result.append(b1)
-    result.append(b2)
-    result.append(b3)
-    print(result)
+    # Final da equação 𝛽= (Xt X)-1 Xty
+    result = []
+    result.append(b1[0])
+    result.append(b2[0])
+    result.append(b3[0])
+
+    # 𝑦̂ = X*𝛽
+    teste = np.matrix(m2) * np.matrix(result)
+    print(len(teste[0]))
+
+    # Plotar o Gráfico de Dispersão 3D
+    fig = plt.figure()
+    ax = Axes3D(fig)
+
+    # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
+    ax.scatter(tamanhoCasas, numQuartos, m3y)
+    plt.show()
+
+    # Plot  de Tamanho | numero de quartos | preco calculado
+    
+    
 
 
-# Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
 
-# Plot  de Tamanho | numero de quartos | preco calculado
 
 
 if __name__ == "__main__":
