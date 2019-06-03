@@ -45,24 +45,19 @@ def multiply_matrix(transposeMatrix, xMatrix, pricesArray):
             firstMultiplication[i][j] = firstMultiplication[i][j] ** -1
 
     # Multiplicar essa matriz pela matriz transposta
-    multipliedMatrix = np.matrix(firstMultiplication) * np.matrix(transposeMatrix)
+    multipliedMatrix = np.matrix(
+        firstMultiplication) * np.matrix(transposeMatrix)
 
     # Multiplicar a matriz por y (preço)
-    b1 = (np.array(multipliedMatrix[0]) * np.array(pricesArray)).tolist()
-    b2 = (np.array(multipliedMatrix[1]) * np.array(pricesArray)).tolist()
-    b3 = (np.array(multipliedMatrix[2]) * np.array(pricesArray)).tolist()
-
-    # Final da equação 𝛽 = (Xt X)-1 Xt y
-    result = []
-    result.append(b1[0])
-    result.append(b2[0])
-    result.append(b3[0])
-    return result
+    # print(np.array(multipliedMatrix).dot(np.array(pricesArray)))
+    result = np.array(multipliedMatrix).dot(np.array(pricesArray))
+    print(result.tolist())
+    return result.tolist()
 
 
 def regression_line(m2, result):
     # 𝑦̂ = X*𝛽
-    teste = np.matrix(m2) * np.matrix(result)
+    teste = np.array(m2).dot(np.array(result))
     print(teste)
 
 
@@ -76,7 +71,6 @@ def plot_3d_graph(x, y, z):
     plt.show()
 
     # Plot  de Tamanho | numero de quartos | preco calculado
-
 
 
 if __name__ == "__main__":
