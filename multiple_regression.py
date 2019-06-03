@@ -60,6 +60,7 @@ def regmultipla(x, y):
 
 # Executa a equação: 𝑦̂ = X𝛽
 def regression_line(x, beta):
+    print('Casa de tamanho de 1650 e 3 quartos: R$ ', np.dot([1, 1650, 3], beta))
     return np.dot(x, beta)
 
 
