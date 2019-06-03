@@ -10,6 +10,7 @@ import matricesUtils
 def main():
     m = data.getMatrix()
     mx = matricesUtils.matrix_indX(m)
+    mxWithoutOne = matricesUtils.matrix_indX_without_one(m)
     my = matricesUtils.matrix_indY(m)
 
     tamanhoCasas = matricesUtils.getTamanhoCasas(m)
@@ -21,15 +22,15 @@ def main():
     b0 = correlation_regression.regressaoB0(tamanhoCasas, my, b1)
     correlation_regression.montarGrafico(tamanhoCasas, my, b0, b1, r1)
 
-    # Número de quartos e Preço
+    # Verifique a correlação e a regressão para Número de quartos e Preço
     r1 = correlation_regression.correlacao(numQuartos, my)
     b1 = correlation_regression.regressaoB1(numQuartos, my)
     b0 = correlation_regression.regressaoB0(numQuartos, my, b1)
     correlation_regression.montarGrafico(numQuartos, my, b0, b1, r1)
 
-    # Multiple Linear Regression
-    result = regmultipla(matricesUtils.matrix_indX_without_one(m), my)
-    newZ = regression_line(np.array(mx), result)
+    # Regressao Linear Multipla
+    result = regmultipla(mxWithoutOne, my)
+    newZ = regression_line(mx, result)
 
     # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
     # Plot de Tamanho | numero de quartos | preco calculado
@@ -54,7 +55,6 @@ def regmultipla(x, y):
     x_transposto_vezes_y = np.dot(x_transposto, y)
 
     # (Xt X)-1 Xt y
-    print(np.dot(x_transposto_vezes_x_inverso, x_transposto_vezes_y).tolist())
     return np.dot(x_transposto_vezes_x_inverso, x_transposto_vezes_y)
 
 
