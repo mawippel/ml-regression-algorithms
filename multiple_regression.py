@@ -8,7 +8,7 @@ import matricesUtils
 
 
 def main():
-    m = data.getXandasso()
+    m = data.getMatrix()
     mx = matricesUtils.matrix_indX(m)
     my = matricesUtils.matrix_indY(m)
 
@@ -28,7 +28,7 @@ def main():
     correlation_regression.montarGrafico(numQuartos, my, b0, b1, r1)
 
     # Multiple Linear Regression
-    result = regmultipla(np.array(mx), np.array(my))
+    result = regmultipla(matricesUtils.matrix_indX_without_one(m), my)
     newZ = regression_line(np.array(mx), result)
 
     # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
@@ -38,12 +38,22 @@ def main():
 
 # Executa a equação: 𝛽 = (Xt X)-1 Xt y
 def regmultipla(x, y):
-    print(x)
-    print(y)
+    # Insere 1 na primeira coluna
+    x = np.insert(x, 0, 1, axis=1)
+
+    # Transpõe a matriz X
     x_transposto = np.transpose(x)
+
+    # (Xt X)
     x_transposto_vezes_x = np.dot(x_transposto, x)
+
+    # (Xt X)-1
     x_transposto_vezes_x_inverso = np.linalg.inv(x_transposto_vezes_x)
+
+    # Xt y
     x_transposto_vezes_y = np.dot(x_transposto, y)
+
+    # (Xt X)-1 Xt y
     print(np.dot(x_transposto_vezes_x_inverso, x_transposto_vezes_y).tolist())
     return np.dot(x_transposto_vezes_x_inverso, x_transposto_vezes_y)
 
