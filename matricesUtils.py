@@ -8,6 +8,12 @@ def matrix_indX(m):
         mx.append([1, m[i][0], m[i][1]])
     return mx
 
+def matrix_indX_without_one(m):
+    mx = []
+    for i in range(0, len(m)):
+        mx.append([m[i][0], m[i][1]])
+    return mx
+
 
 def matrix_indY(m):
     my = []

@@ -9,6 +9,7 @@ import matricesUtils
 
 def main():
     m = data.getMatrix()
+    mxWithoutOne = matricesUtils.matrix_indX_without_one(m)
     mx = matricesUtils.matrix_indX(m)
     my = matricesUtils.matrix_indY(m)
 
@@ -28,49 +29,42 @@ def main():
     correlation_regression.montarGrafico(numQuartos, my, b0, b1, r1)
 
     # Multiple Linear Regression
-    mtx = matricesUtils.transpose_matrix(mx)
-    result = multiply_matrix(mtx, mx, my)
-    regression_line(mx, result)
-    plot_3d_graph(tamanhoCasas, numQuartos, my)
+    result = multiply_matrix(mxWithoutOne, my)
+    newY = regression_line(mx, result)
+
+    # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
+    plot_3d_graph(tamanhoCasas, numQuartos, my, newY)
+
+    # Plot  de Tamanho | numero de quartos | preco calculado
+    # plot_3d_graph(tamanhoCasas, numQuartos, newY)
 
 
 # Executes the equation: 𝛽 = (Xt X)-1 Xt y
-def multiply_matrix(transposeMatrix, xMatrix, pricesArray):
-    aux = np.matrix(transposeMatrix) * np.matrix(xMatrix)
-    firstMultiplication = aux.tolist()
-
-    # Elevação de todos os valores da matriz por -1
-    for i in range(len(firstMultiplication)):
-        for j in range(len(firstMultiplication)):
-            firstMultiplication[i][j] = firstMultiplication[i][j] ** -1
-
-    # Multiplicar essa matriz pela matriz transposta
-    multipliedMatrix = np.matrix(
-        firstMultiplication) * np.matrix(transposeMatrix)
-
-    # Multiplicar a matriz por y (preço)
-    # print(np.array(multipliedMatrix).dot(np.array(pricesArray)))
-    result = np.array(multipliedMatrix).dot(np.array(pricesArray))
-    print(result.tolist())
-    return result.tolist()
+def multiply_matrix(xMatrix, pricesArray):
+    x = np.insert(xMatrix, 0, 1, axis=1)
+    x_t = np.transpose(x)
+    xt_x = np.dot(x_t, x)
+    inverse_xt_x = np.linalg.inv(xt_x)
+    xt_y = np.dot(x_t, pricesArray)
+    result = np.dot(inverse_xt_x, xt_y)
+    print(result)
+    return result
 
 
-def regression_line(m2, result):
+def regression_line(x, result):
     # 𝑦̂ = X*𝛽
-    teste = np.array(m2).dot(np.array(result))
-    print(teste)
+    print(np.dot(x, result))
+    return np.dot(x, result)
 
 
-def plot_3d_graph(x, y, z):
+def plot_3d_graph(x, y, z, newY):
     # Plotar o Gráfico de Dispersão 3D
     fig = plt.figure()
     ax = Axes3D(fig)
 
-    # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
     ax.scatter(x, y, z)
+    plt.plot(x, newY, z, 'r')
     plt.show()
-
-    # Plot  de Tamanho | numero de quartos | preco calculado
 
 
 if __name__ == "__main__":
