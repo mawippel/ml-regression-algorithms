@@ -8,68 +8,60 @@ import matricesUtils
 
 
 def main():
-    m = data.getMatrix()
-    mx = matricesUtils.matrix_indX(m)
-    mxWithoutOne = matricesUtils.matrix_indX_without_one(m)
-    my = matricesUtils.matrix_indY(m)
+    data_matrix = data.getMatrix()
+    matrix_x = matricesUtils.matrix_indX(data_matrix)
+    matrix_x_without_one = matricesUtils.matrix_indX_without_one(data_matrix)
+    matrix_y = matricesUtils.matrix_indY(data_matrix)
 
-    tamanhoCasas = matricesUtils.getTamanhoCasas(m)
-    numQuartos = matricesUtils.getNumQuartos(m)
+    house_sizes = matricesUtils.getHouseSizes(data_matrix)
+    num_bedrooms = matricesUtils.getNumOfBedrooms(data_matrix)
 
-    # Verifique a correlação e a regressão para Tamanho da casa e Preço
-    r1 = correlation_regression.correlacao(tamanhoCasas, my)
-    b1 = correlation_regression.regressaoB1(tamanhoCasas, my)
-    b0 = correlation_regression.regressaoB0(tamanhoCasas, my, b1)
-    correlation_regression.montarGrafico(tamanhoCasas, my, b0, b1, r1)
+    # Verifies the correlation and regression for 'House Size' and 'Price'
+    r1 = correlation_regression.correlacao(house_sizes, matrix_y)
+    b1 = correlation_regression.regressaoB1(house_sizes, matrix_y)
+    b0 = correlation_regression.regressaoB0(house_sizes, matrix_y, b1)
+    correlation_regression.montarGrafico(house_sizes, matrix_y, b0, b1, r1)
 
-    # Verifique a correlação e a regressão para Número de quartos e Preço
-    r1 = correlation_regression.correlacao(numQuartos, my)
-    b1 = correlation_regression.regressaoB1(numQuartos, my)
-    b0 = correlation_regression.regressaoB0(numQuartos, my, b1)
-    correlation_regression.montarGrafico(numQuartos, my, b0, b1, r1)
+    # Verifies the correlation and regression for 'Number of bedrooms' and 'Price'
+    r1 = correlation_regression.correlacao(num_bedrooms, matrix_y)
+    b1 = correlation_regression.regressaoB1(num_bedrooms, matrix_y)
+    b0 = correlation_regression.regressaoB0(num_bedrooms, matrix_y, b1)
+    correlation_regression.montarGrafico(num_bedrooms, matrix_y, b0, b1, r1)
 
-    # Regressao Linear Multipla
-    result = regmultipla(mxWithoutOne, my)
-    newZ = regression_line(mx, result)
+    # Multiple linear regression
+    beta = multiple_reg(matrix_x_without_one, matrix_y)
+    newZ = regression_line(matrix_x, beta)
 
-    # Scatter de Tamanho | numero de quartos | preco real (que veio da matriz)
-    # Plot de Tamanho | numero de quartos | preco calculado
-    plot_3d_graph(tamanhoCasas, numQuartos, my, newZ)
+    # Plots the 3D graph
+    plot_3d_graph(house_sizes, num_bedrooms, matrix_y, newZ)
 
 
-# Executa a equação: 𝛽 = (Xt X)-1 Xt y
-def regmultipla(x, y):
-    # Insere 1 na primeira coluna
+# Executes equation: 𝛽 = (Xt X)-1 Xt y
+def multiple_reg(x, y):
+    # Inserts 1 in the first column
     x = np.insert(x, 0, 1, axis=1)
 
-    # Transpõe a matriz X
-    x_transposto = np.transpose(x)
-
-    # (Xt X)
-    x_transposto_vezes_x = np.dot(x_transposto, x)
-
-    # (Xt X)-1
-    x_transposto_vezes_x_inverso = np.linalg.inv(x_transposto_vezes_x)
-
-    # Xt y
-    x_transposto_vezes_y = np.dot(x_transposto, y)
-
-    # (Xt X)-1 Xt y
-    return np.dot(x_transposto_vezes_x_inverso, x_transposto_vezes_y)
+    # Executes the equation
+    transpose_x = np.transpose(x)
+    transpose_x_times_x = np.dot(transpose_x, x)
+    inverse_transpose_x_times_x = np.linalg.inv(transpose_x_times_x)
+    transpose_x_times_y = np.dot(transpose_x, y)
+    return np.dot(inverse_transpose_x_times_x, transpose_x_times_y)
 
 
-# Executa a equação: 𝑦̂ = X𝛽
+# Executes equation: 𝑦̂ = X𝛽
 def regression_line(x, beta):
-    print('Casa de tamanho de 1650 e 3 quartos: R$ ', np.dot([1, 1650, 3], beta))
+    print('House size (1650) | Bedrooms (3): R$ ', np.dot([1, 1650, 3], beta))
     return np.dot(x, beta)
 
 
 def plot_3d_graph(x, y, z, newZ):
-    # Plotar o Gráfico de Dispersão 3D
     fig = plt.figure()
     ax = Axes3D(fig)
 
+    # Scatter of: House Size | Number of Bedrooms | Real price (came from matrix)
     ax.scatter(x, y, z)
+    # Plot of: House Size | Number of Bedrooms | calculated price
     plt.plot(x, y, newZ, 'r')
     plt.show()
 

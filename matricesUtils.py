@@ -18,15 +18,15 @@ def matrix_indY(m):
     return my
 
 
-def getTamanhoCasas(m):
-    casas = []
+def getHouseSizes(m):
+    houses = []
     for i in range(0, len(m)):
-        casas.append(m[i][0])
-    return casas
+        houses.append(m[i][0])
+    return houses
 
 
-def getNumQuartos(m):
-    quartos = []
+def getNumOfBedrooms(m):
+    bedrooms = []
     for i in range(0, len(m)):
-        quartos.append(m[i][1])
-    return quartos
+        bedrooms.append(m[i][1])
+    return bedrooms
