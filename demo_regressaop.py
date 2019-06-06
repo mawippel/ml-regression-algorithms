@@ -20,6 +20,12 @@ def main():
     d = np.add ( np.add( np.dot(np.power(x, 2), d_betas[0]), np.dot(x, d_betas[1]) ), d_betas[2] )
     plt.plot(d, 'green')
 
+		# y = 𝛽0 + 𝛽1X + 𝛽2X² + 𝛽3X³
+		d_betas = np.polyfit(x, y, 3)
+
+
+		# y = 𝛽0 + 𝛽1X + 𝛽2X² + 𝛽3X³ + 𝛽2X4 + 𝛽3X5 + 𝛽2X6 + 𝛽3X7 + 𝛽3X8
+		d_betas = np.polyfit(x, y, 8)
 
     plt.show()
 
