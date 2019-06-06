@@ -12,32 +12,28 @@ def main():
 
     # y = 𝛽0 + 𝛽1X
     c_betas = np.polyfit(x, y, 1)
-    c = np.dot(c_betas[0], x) + c_betas[1]
-    plt.plot(c, 'red')
+    c = c_betas[1] + np.dot(c_betas[0], x)
+    plt.plot(x, c, 'red')
 
     # y = 𝛽0 + 𝛽1X + 𝛽2X²
     d_betas = np.polyfit(x, y, 2)
-    d = np.add ( np.add( np.dot(np.power(x, 2), d_betas[0]), np.dot(x, d_betas[1]) ), d_betas[2] )
-    plt.plot(d, 'green')
+    d = np.dot(np.power(x, 2), d_betas[0]) + np.dot(x, d_betas[1]) + d_betas[2]
+    plt.plot(x, d, 'green')
 
     # y = 𝛽0 + 𝛽1X + 𝛽2X² + 𝛽3X³
-    d_betas = np.polyfit(x, y, 3)
-
+    e_betas = np.polyfit(x, y, 3)
+    e = np.dot(np.power(x, 3), e_betas[0]) + np.dot(np.power(x, 2),
+                                                    e_betas[1]) + np.dot(x, e_betas[2]) + e_betas[3]
+    plt.plot(x, e, 'black')
 
     # y = 𝛽0 + 𝛽1X + 𝛽2X² + 𝛽3X³ + 𝛽2X4 + 𝛽3X5 + 𝛽2X6 + 𝛽3X7 + 𝛽3X8
-    d_betas = np.polyfit(x, y, 8)
+    f_betas = np.polyfit(x, y, 8)
+    f = np.dot(np.power(x, 8), f_betas[0]) + np.dot(np.power(x, 7), f_betas[1]) + np.dot(np.power(x, 6), f_betas[2]) + np.dot(np.power(x, 5), f_betas[3]) + np.dot(np.power(x, 4), f_betas[4]) + np.dot(np.power(x, 3), f_betas[5]) + np.dot(np.power(x, 2),
+                                                                                                                                                                                                                                             f_betas[6]) + np.dot(x, f_betas[7]) + f_betas[8]
+    plt.plot(x, f, 'yellow')
 
     plt.show()
 
-
-    e_betas = np.polyfit(x, y, 3)
-    f_betas = np.polyfit(x, y, 8)
-
-    # print(d_betas)
-    # print(e_betas)
-    # print(f_betas)
-
-    
 
 if __name__ == "__main__":
     main()
