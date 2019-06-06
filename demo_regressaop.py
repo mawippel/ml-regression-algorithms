@@ -1,24 +1,37 @@
 import scipy.io as scipy
 import numpy as np
+import matplotlib.pyplot as plt
 
 data = scipy.loadmat('data_preg.mat')['data']
 
+
 def main():
-    d_betas = np.polyfit(data[:,0], data[:,1], 2)
-    e_betas = np.polyfit(data[:,0], data[:,1], 3)
-    f_betas = np.polyfit(data[:,0], data[:,1], 8)
+    x = data[:, 0]
+    y = data[:, 1]
+    plt.scatter(x, y)
 
-    print(d_betas)
-    print(e_betas)
-    print(f_betas)
+    # y = 𝛽0 + 𝛽1X
+    c_betas = np.polyfit(x, y, 1)
+    c = np.dot(c_betas[0], x) + c_betas[1]
+    plt.plot(c, 'red')
 
-    print(d_betas[2])
+    # y = 𝛽0 + 𝛽1X + 𝛽2X²
+    d_betas = np.polyfit(x, y, 2)
+    d = np.add ( np.add( np.dot(np.power(x, 2), d_betas[0]), np.dot(x, d_betas[1]) ), d_betas[2] )
+    plt.plot(d, 'green')
 
-    x123 = np.array(np.dot(d_betas[0], data[:,0]), np.dot(d_betas[1], data[:,0])
 
-    print(x123)
+    plt.show()
 
-    print(np.sum(x123), axis=0))
+
+    e_betas = np.polyfit(x, y, 3)
+    f_betas = np.polyfit(x, y, 8)
+
+    # print(d_betas)
+    # print(e_betas)
+    # print(f_betas)
+
+    
 
 if __name__ == "__main__":
     main()
