@@ -18,36 +18,32 @@ y3 = [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 5.56, 7.91, 6.89, 12.50]
 
 
 def main():
+    # runs the correlation method for the 3 datasets
     r1 = correlacao(x1, y1)
     r2 = correlacao(x2, y2)
     r3 = correlacao(x3, y3)
 
-    # round(r1, 4)
-    # round(r2, 4)
-    # round(r3, 4)
-
+    # runs the beta 1 method for the 3 datasets
     b11 = regressaoB1(x1, y1)
     b12 = regressaoB1(x2, y2)
     b13 = regressaoB1(x3, y3)
 
-    # round(b11, 4)
-    # round(b12, 4)
-    # round(b13, 4)
-
+    # runs the beta 0 method for the 3 datasets
     b01 = regressaoB0(x1, y1, b11)
     b02 = regressaoB0(x2, y2, b12)
     b03 = regressaoB0(x3, y3, b13)
 
-    # round(b01, 4)
-    # round(b02, 4)
-    # round(b03, 4)
-
+    # plot the 3 graphs 
     montarGrafico(x1, y1, b01, b11, r1)
     montarGrafico(x2, y2, b02, b12, r2)
     montarGrafico(x3, y3, b03, b13, r3)
 
 
 def correlacao(x, y):
+    """
+        Executes the following equation:
+            Σ(x−x̄)(y−ȳ) / √(Σ(x−x̄)² Σ(y−ȳ)²)
+    """
     xAvg = average(x)
     yAvg = average(y)
     divisor = 0
@@ -67,6 +63,10 @@ def correlacao(x, y):
 
 
 def regressaoB1(x, y):
+    """
+        Executes the following equation, to get the beta 1 value:
+            Σ(x−x̄)(y−ȳ) /	Σ(x−x̄)²
+    """
     xAvg = average(x)
     yAvg = average(y)
     divisor = 0
@@ -78,25 +78,37 @@ def regressaoB1(x, y):
 
     return divisor / dividendo
 
-
 def regressaoB0(x, y, b1):
+    """
+        Executes the following equation, to get the beta 0 value:
+            𝑦̄− β1𝑥̄
+    """
     xAvg = average(x)
     yAvg = average(y)
     return yAvg - (b1 * xAvg)
 
-
-def average(lst):
-    return sum(lst) / len(lst)
-
-
 def calcularCoeficienteCorrelacao(b0, b1, x):
+    """
+        Executes the following equation, to get the regression line:
+            𝛽0+𝛽1x
+    """
     y = []
     for i in range(0, len(x)):
         y.append(b0 + (b1*x[i]))
     return y
 
 
+def average(lst):
+    """
+        Get the average value of an array
+    """
+    return sum(lst) / len(lst)
+
+
 def montarGrafico(x, y, b0, b1, r):
+    """
+        Build and plot the graph based on x, y and the correlation coeficient
+    """
     plt.scatter(x, y)
     plt.plot(x, calcularCoeficienteCorrelacao(b0, b1, x), 'r')
     plt.title('r=' + str(round(r, 4)) + ' b0=' + str(round(b0, 4)) + ' b1=' + str(round(b1, 4)))

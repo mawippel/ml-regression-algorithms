@@ -3,22 +3,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+# Load the matrix from the file
 data = scipy.loadmat('data_preg.mat')['data']
 
 
 def main():
+    # load the x and y arrays into these variables, using list comprehension
     x = data[:, 0]
     y = data[:, 1]
     plt.scatter(x, y)
 
+    # Calculate each regression line by doing a polyfit and solving the polynom
     n1 = calculateN1(x, y)
     n2 = calculateN2(x, y)
     n3 = calculateN3(x, y)
     n8 = calculateN8(x, y)
+
+    # Plot the regression lines
     plt.show()
     plt.clf()
 
-    # Calculate MSE (Mean Squared Error)
+    # Calculate MSE (Mean Squared Error) for each regression that was calculated
     mse1 = calculateMSE(n1, y)
     mse2 = calculateMSE(n2, y)
     mse3 = calculateMSE(n3, y)
@@ -30,10 +35,8 @@ def main():
     print(mse8)
 
     testData = []
-    # Get the left data as the test data
+    # Get the data left as the test data
     testData = random.choices(data, k=5)
-    # for i in range(0, 5):
-    #     testData.append(data[i])
 
     # Get 10% of the array as the training data
     a1_rows = set(map(tuple, data))
@@ -68,6 +71,7 @@ def main():
     plt.show()
     plt.clf()
 
+    # Calculates the regression using the betas from the trained data, but using the testData
     aux1 = betaN1[1] + np.dot(betaN1[0], testX)
     aux2 = np.dot(np.power(testX, 2), betaN2[0]) + np.dot(testX, betaN2[1]) + betaN2[2]
     aux3 = np.dot(np.power(testX, 3), betaN3[0]) + np.dot(np.power(testX, 2),
@@ -75,11 +79,17 @@ def main():
     aux8 = np.dot(np.power(testX, 8), betaN4[0]) + np.dot(np.power(testX, 7), betaN4[1]) + np.dot(np.power(testX, 6), betaN4[2]) + np.dot(np.power(testX, 5), betaN4[3]) + np.dot(np.power(testX, 4), betaN4[4]) + np.dot(np.power(testX, 3), betaN4[5]) + np.dot(np.power(testX, 2),
                                                                                                                                                                                                                                              betaN4[6]) + np.dot(testX, betaN4[7]) + betaN4[8]
 
+    """
+        Calculate the MSE using the regressions that were just calculated, to see the difference between the
+        original MSE and the MSE calculated with the trained/test data
+    """
     mse1 = calculateMSE(aux1, testY)
     mse2 = calculateMSE(aux2, testY)
     mse3 = calculateMSE(aux3, testY)
     mse8 = calculateMSE(aux8, testY)
 
+    # We should see smaller MSE numbers here
+    print ('-------------------')
     print(mse1)
     print(mse2)
     print(mse3)
@@ -136,11 +146,6 @@ def calculateN8(x, y):
                                                                                                                                                                                                                                              f_betas[6]) + np.dot(x, f_betas[7]) + f_betas[8]
     plt.plot(x, f, 'yellow')
     return f
-
-
-def getDiff(li1, li2):
-    return (list(set(li1) - set(li2)))
-
 
 if __name__ == "__main__":
     main()
