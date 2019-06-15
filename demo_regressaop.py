@@ -1,3 +1,8 @@
+"""
+    k) Que método é o mais preciso neste caso?
+    R: Para N=8, o EQM é sempre menor, ou seja, é mais preciso.
+"""
+
 import scipy.io as scipy
 import numpy as np
 import matplotlib.pyplot as plt

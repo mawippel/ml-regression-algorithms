@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import data
 import numpy as np
-import correlation_regression
+import demo
 import matricesUtils
 
 
@@ -16,17 +16,17 @@ def main():
     house_sizes = matricesUtils.getHouseSizes(data_matrix)
     num_bedrooms = matricesUtils.getNumOfBedrooms(data_matrix)
 
-    # Verifies the correlation and regression for 'House Size' and 'Price', using the correlation_regression.py script
-    r1 = correlation_regression.correlacao(house_sizes, matrix_y)
-    b1 = correlation_regression.regressaoB1(house_sizes, matrix_y)
-    b0 = correlation_regression.regressaoB0(house_sizes, matrix_y, b1)
-    correlation_regression.montarGrafico(house_sizes, matrix_y, b0, b1, r1)
+    # Verifies the correlation and regression for 'House Size' and 'Price', using the demo.py script
+    r1 = demo.correlacao(house_sizes, matrix_y)
+    b1 = demo.regressaoB1(house_sizes, matrix_y)
+    b0 = demo.regressaoB0(house_sizes, matrix_y, b1)
+    demo.montarGrafico(house_sizes, matrix_y, b0, b1, r1)
 
-    # Verifies the correlation and regression for 'Number of bedrooms' and 'Price', using the correlation_regression.py script
-    r1 = correlation_regression.correlacao(num_bedrooms, matrix_y)
-    b1 = correlation_regression.regressaoB1(num_bedrooms, matrix_y)
-    b0 = correlation_regression.regressaoB0(num_bedrooms, matrix_y, b1)
-    correlation_regression.montarGrafico(num_bedrooms, matrix_y, b0, b1, r1)
+    # Verifies the correlation and regression for 'Number of bedrooms' and 'Price', using the demo.py script
+    r1 = demo.correlacao(num_bedrooms, matrix_y)
+    b1 = demo.regressaoB1(num_bedrooms, matrix_y)
+    b0 = demo.regressaoB0(num_bedrooms, matrix_y, b1)
+    demo.montarGrafico(num_bedrooms, matrix_y, b0, b1, r1)
 
     # Calculate the multiple linear regression
     beta = multiple_reg(matrix_x_without_one, matrix_y)
