@@ -1,4 +1,4 @@
-# python-regression
+# Machine Learning Regression Algorithms
 
 Correlation and Regression algorithms using Python
 
